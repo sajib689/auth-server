@@ -10,20 +10,21 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI
 app.use(cors({
-    origin: ['https://auth-client-beryl.vercel.app']
+    origin: ['https://auth-client-beryl.vercel.app'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+  credentials: true,
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const server = createServer(app);
-const connectionDb = async () => {
-    try {
-        await mongoose.connect(MONGO_URI);
-        console.log('MongoDB connected successfully');
-    } catch (error) {
-        console.error('MongoDB connection error:', error);
-    }
-};
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => {
+    app.listen(process.env.PORT || 5000, () => {
+      console.log('Server running on port 5000');
+    });
+  })
+  .catch(err => console.log('DB connection error:', err));
 // routes
 
 app.use('/api/v1/users', usersRouter)
@@ -31,8 +32,3 @@ app.use('/api/v1/users', usersRouter)
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
-
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-    connectionDb();
-})
