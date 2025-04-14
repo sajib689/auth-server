@@ -20,3 +20,12 @@ export const usersLoginService = async (email) => {
         throw new Error(err.message)
     }
 }
+
+// get the users from the database
+export const getUsersService = async () => {
+    try {
+        return await User.find()
+    } catch(err) {
+        throw new Error(err.message)
+    }
+}

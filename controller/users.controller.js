@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken'
 import bcrypt from "bcryptjs";
 export const usersController = async (req, res) => {
     try {
+        // get the data from the request body
         const data = req.body
         const result = await usersService(data)
         res.status(201).json({
@@ -52,7 +53,7 @@ export const usersLoginController = async (req, res) => {
         res.status(200).json({
             success: true,
             message: "User logged in successfully",
-            data: user, // Send the user data in the response
+            data: user, 
             token: token
         });
 
@@ -61,5 +62,18 @@ export const usersLoginController = async (req, res) => {
             success: false,
             message: err.message
         });
+    }
+}
+
+export const getUsersController = async (req, res) => {
+    try {
+        const result = await getUsersService()
+        res.status(200).json({
+            success: true,
+            message: "Users fetched successfully",
+            data: result
+        })
+    } catch (err) {
+        throw new Error(err.message)
     }
 }
