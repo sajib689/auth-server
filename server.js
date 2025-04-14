@@ -10,7 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI
 app.use(cors({
-    origin: ['https://auth-client-beryl.vercel.app']
+    origin: ['https://auth-client-beryl.vercel.app','http://localhost:3000']
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
