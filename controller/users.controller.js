@@ -1,4 +1,4 @@
-import { usersLoginService, usersService } from "../service/users.service.js"
+import { getUsersService, usersLoginService, usersService } from "../service/users.service.js"
 import jwt from 'jsonwebtoken'
 import bcrypt from "bcryptjs";
 export const usersController = async (req, res) => {
@@ -67,7 +67,8 @@ export const usersLoginController = async (req, res) => {
 
 export const getUsersController = async (req, res) => {
     try {
-        const result = await getUsersService()
+        const email = req.params.email
+        const result = await getUsersService({email})
         res.status(200).json({
             success: true,
             message: "Users fetched successfully",
